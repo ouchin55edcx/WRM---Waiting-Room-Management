@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Data
 public class WaitingRoom {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

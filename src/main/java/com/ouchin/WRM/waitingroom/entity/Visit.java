@@ -1,6 +1,7 @@
 package com.ouchin.WRM.waitingroom.entity;
 
 import com.ouchin.WRM.visitor.entity.Visitor;
+import com.ouchin.WRM.waitingroom.Embedded.VisitId;
 import com.ouchin.WRM.waitingroom.entity.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -11,9 +12,8 @@ import java.time.LocalTime;
 @Entity
 public class Visit {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @EmbeddedId
+    private VisitId id;
 
     @NotNull(message = "Arrival time is required")
     private LocalTime arrivalTime;
@@ -30,11 +30,13 @@ public class Visit {
 
     private Duration estimatedProcessingTime;
 
+    @MapsId("visitorId")
     @ManyToOne
-    @JoinColumn(name = "visitor_id", insertable = false, updatable = false)
+    @JoinColumn(name = "visitor_id", nullable = false)
     private Visitor visitor;
 
+    @MapsId("waitingRoomId")
     @ManyToOne
-    @JoinColumn(name = "waiting_room_id", insertable = false, updatable = false)
+    @JoinColumn(name = "waiting_room_id", nullable = false)
     private WaitingRoom waitingRoom;
 }
