@@ -30,4 +30,9 @@ public class Visitor {
 
     @OneToMany(mappedBy = "visitor")
     private List<Visit> visits = new ArrayList<>();
+
+    public Visitor(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }
