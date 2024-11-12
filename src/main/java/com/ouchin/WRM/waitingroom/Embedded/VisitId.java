@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VisitId {
-
     private Long visitorId;
-    private Long witingRoomId;
+    private Long waitingRoomId;
 }

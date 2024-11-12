@@ -4,6 +4,7 @@ import com.ouchin.WRM.waitingroom.entity.enums.Algorithm;
 import com.ouchin.WRM.waitingroom.entity.enums.Mode;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class WaitingRoomResponseDto {
     private int id;

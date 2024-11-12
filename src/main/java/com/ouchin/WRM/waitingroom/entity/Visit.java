@@ -19,7 +19,6 @@ public class Visit {
     private LocalTime arrivalTime;
 
     private LocalTime startTime;
-
     private LocalTime endTime;
 
     @Enumerated(EnumType.STRING)
@@ -27,16 +26,16 @@ public class Visit {
     private Status status;
 
     private Byte priority;
-
     private Duration estimatedProcessingTime;
 
-    @MapsId("visitorId")
     @ManyToOne
-    @JoinColumn(name = "visitor_id", nullable = false)
+    @MapsId("visitorId")  // Maps to visitorId in VisitId
+    @JoinColumn(name = "visitor_id")
     private Visitor visitor;
 
-    @MapsId("waitingRoomId")
     @ManyToOne
-    @JoinColumn(name = "waiting_room_id", nullable = false)
+    @MapsId("waitingRoomId")  // Maps to waitingRoomId in VisitId
+    @JoinColumn(name = "waiting_room_id")
     private WaitingRoom waitingRoom;
+
 }
