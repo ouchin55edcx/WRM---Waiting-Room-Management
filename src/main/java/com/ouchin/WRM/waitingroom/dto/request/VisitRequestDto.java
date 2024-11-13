@@ -1,14 +1,18 @@
 package com.ouchin.WRM.waitingroom.dto.request;
 
+import com.ouchin.WRM.visitor.embedded.VisitorId;
+import com.ouchin.WRM.waitingroom.Embedded.WaitingRoomId;
 import com.ouchin.WRM.waitingroom.entity.enums.Status;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Data;
 
 import java.time.Duration;
 import java.time.LocalTime;
 
+@Data
 public class VisitRequestDto {
     @NotNull(message = "Arrival time is required")
     private LocalTime arrivalTime;
@@ -32,8 +36,8 @@ public class VisitRequestDto {
     private Duration estimatedProcessingTime;
 
     @NotNull
-    private Long visitorId;
+    private VisitorId visitorId;
 
     @NotNull
-    private Integer waitingRoomId;
+    private WaitingRoomId waitingRoomId;
 }

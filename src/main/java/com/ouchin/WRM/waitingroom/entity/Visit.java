@@ -5,10 +5,14 @@ import com.ouchin.WRM.waitingroom.Embedded.VisitId;
 import com.ouchin.WRM.waitingroom.entity.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.time.LocalTime;
 
+@Data
+@NoArgsConstructor
 @Entity
 public class Visit {
 
@@ -29,13 +33,12 @@ public class Visit {
     private Duration estimatedProcessingTime;
 
     @ManyToOne
-    @MapsId("visitorId")  // Maps to visitorId in VisitId
+    @MapsId("visitorId")
     @JoinColumn(name = "visitor_id")
     private Visitor visitor;
 
     @ManyToOne
-    @MapsId("waitingRoomId")  // Maps to waitingRoomId in VisitId
+    @MapsId("waitingRoomId")
     @JoinColumn(name = "waiting_room_id")
     private WaitingRoom waitingRoom;
-
 }

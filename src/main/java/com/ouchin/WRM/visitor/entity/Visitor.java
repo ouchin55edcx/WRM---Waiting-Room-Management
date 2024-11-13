@@ -1,5 +1,6 @@
 package com.ouchin.WRM.visitor.entity;
 
+import com.ouchin.WRM.visitor.embedded.VisitorId;
 import com.ouchin.WRM.waitingroom.entity.Visit;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,9 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Visitor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @EmbeddedId
+    private VisitorId visitorId;
 
     @NotNull(message = "First name is required")
     @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
@@ -28,7 +29,7 @@ public class Visitor {
     @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters")
     private String lastName;
 
-    @OneToMany(mappedBy = "visitor")
+    @OneToMany(mappedBy = "visitor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Visit> visits = new ArrayList<>();
 
     public Visitor(String firstName, String lastName) {

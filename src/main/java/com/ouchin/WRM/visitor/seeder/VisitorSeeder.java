@@ -14,7 +14,6 @@ import java.util.List;
 @Profile("dev")
 public class VisitorSeeder implements CommandLineRunner {
 
-
     private final VisitorRepository visitorRepository;
 
     public VisitorSeeder(VisitorRepository visitorRepository) {
@@ -33,10 +32,8 @@ public class VisitorSeeder implements CommandLineRunner {
 
             visitorRepository.saveAll(visitors);
             System.out.println("Visitor data seeded successfully");
-        }else {
+        } else {
             System.out.println("Visitor data already seeded");
         }
-
-
     }
 }
