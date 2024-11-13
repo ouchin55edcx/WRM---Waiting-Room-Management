@@ -51,13 +51,15 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public VisitResponseDto subscribeVisitor(VisitRequestDto dto) {
         var visitor = visitorService.findEntityById(dto.getVisitorId());
-        var visit = visitMapper.toEntity(dto);
+        Visit visit = visitMapper.toEntity(dto);
 
         visit.setVisitor(visitor);
         visit.setId(new VisitId(dto.getVisitorId(), dto.getWaitingRoomId()));
 
-        return visitMapper.toDto(visitRepository.save(visit));
+        Visit savedVisit = visitRepository.save(visit);
+        return visitMapper.toDto(savedVisit);
     }
+
 
 
     @Override

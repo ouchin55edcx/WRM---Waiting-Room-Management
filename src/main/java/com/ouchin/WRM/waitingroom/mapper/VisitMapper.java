@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface VisitMapper {
+    Visit toEntity(VisitRequestDto dto);
     VisitResponseDto toDto(Visit visit);
-    Visit toEntity(VisitRequestDto visitRequestDto);
-    void updateVisitFromDto(VisitRequestDto visitRequestDto, @MappingTarget Visit visit);
 }
+

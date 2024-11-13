@@ -1,5 +1,6 @@
 package com.ouchin.WRM.waitingroom.entity;
 
+import com.ouchin.WRM.waitingroom.Embedded.WaitingRoomId;
 import com.ouchin.WRM.waitingroom.entity.enums.Algorithm;
 import com.ouchin.WRM.waitingroom.entity.enums.Mode;
 import jakarta.persistence.*;
@@ -13,9 +14,9 @@ import java.util.List;
 @Entity
 @Data
 public class WaitingRoom {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+
+    @EmbeddedId
+    private WaitingRoomId id;
 
     @NotNull(message = "Date is required")
     private LocalDate date;

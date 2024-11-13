@@ -1,6 +1,14 @@
 package com.ouchin.WRM.waitingroom.Embedded;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.GeneratedValue;
 
-public record WaitingRoomId(@GeneratedValue Long id) {
+@Embeddable
+public record WaitingRoomId(Long id) {
 }
+
+
+// TO DO : 1- clean code waiting  room .
+
+//            2- create  annotatns
+//             3- create controllers

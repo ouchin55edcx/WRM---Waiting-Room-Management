@@ -6,7 +6,9 @@ import com.ouchin.WRM.visitor.embedded.VisitorId;
 import com.ouchin.WRM.waitingroom.Embedded.WaitingRoomId;
 import com.ouchin.WRM.waitingroom.dto.request.VisitRequestDto;
 import com.ouchin.WRM.waitingroom.dto.response.VisitResponseDto;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface VisitService{
         List<VisitResponseDto> findAll();
         VisitResponseDto findById(VisitorId visitorId, WaitingRoomId waitingRoomId);
