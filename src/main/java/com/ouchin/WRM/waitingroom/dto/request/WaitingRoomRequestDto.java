@@ -2,17 +2,18 @@ package com.ouchin.WRM.waitingroom.dto.request;
 
 import com.ouchin.WRM.waitingroom.entity.enums.Algorithm;
 import com.ouchin.WRM.waitingroom.entity.enums.Mode;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.time.LocalDate;
 
 @Data
 public class WaitingRoomRequestDto {
     @NotNull(message = "Date is required")
-    private LocalDate date;
+    private String date;
 
     @NotNull(message = "Capacity is required")
+    @Min(value = 1, message = "Capacity must be at least 1")
     private Integer capacity;
 
     @NotNull(message = "Mode is required")
@@ -20,5 +21,4 @@ public class WaitingRoomRequestDto {
 
     @NotNull(message = "Algorithm is required")
     private Algorithm algorithm;
-
 }

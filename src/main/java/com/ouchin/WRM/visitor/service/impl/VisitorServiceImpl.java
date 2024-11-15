@@ -11,17 +11,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class VisitorServiceImpl implements VisitorService {
 
     private final VisitorRepository visitorRepository;
 
+    public VisitorServiceImpl(VisitorRepository visitorRepository) {
+        this.visitorRepository = visitorRepository;
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Visitor findEntityById(Long id) {
-        log.debug("Finding visitor with id: {}", id);
         return visitorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Visitor not found for ID: " + id));
     }
 }
+

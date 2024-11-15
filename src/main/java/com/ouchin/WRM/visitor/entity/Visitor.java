@@ -56,4 +56,15 @@ public class Visitor {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    public Visitor setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public Visitor setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
 }

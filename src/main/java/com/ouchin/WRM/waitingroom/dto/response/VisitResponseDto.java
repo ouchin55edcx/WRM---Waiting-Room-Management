@@ -1,19 +1,17 @@
 package com.ouchin.WRM.waitingroom.dto.response;
 
-import com.ouchin.WRM.visitor.entity.Visitor;
 import com.ouchin.WRM.waitingroom.entity.enums.Status;
+import lombok.Data;
 
-import java.time.Duration;
-import java.time.LocalTime;
-
+@Data
 public class VisitResponseDto {
     private Long id;
-    private LocalTime arrivalTime;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private Status status;
+    private String arrivalTime;
+    private String startTime;
+    private String endTime;
     private Byte priority;
-    private Duration estimatedProcessingTime;
-    private Visitor visitor;
-    private WaitingRoomResponseDto waitingRoom;
+    private Status status;
+    private Long visitorId;
+    private String visitorFullName;
+    private Long waitingRoomId;
 }

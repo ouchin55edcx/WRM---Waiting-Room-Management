@@ -1,69 +1,61 @@
 package com.ouchin.WRM.waitingroom.service.impl;
 
-import com.ouchin.WRM.exception.ResourceNotFoundException;
-import com.ouchin.WRM.waitingroom.Embedded.WaitingRoomId;
 import com.ouchin.WRM.waitingroom.dto.request.WaitingRoomRequestDto;
 import com.ouchin.WRM.waitingroom.dto.response.WaitingRoomResponseDto;
 import com.ouchin.WRM.waitingroom.entity.WaitingRoom;
 import com.ouchin.WRM.waitingroom.mapper.WaitingRoomMapper;
 import com.ouchin.WRM.waitingroom.repository.WaitingRoomRepository;
 import com.ouchin.WRM.waitingroom.service.WaitingRoomService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class WaitingRoomServiceImpl implements WaitingRoomService {
 
     private final WaitingRoomRepository waitingRoomRepository;
     private final WaitingRoomMapper waitingRoomMapper;
 
-    @Autowired
-    public WaitingRoomServiceImpl(WaitingRoomRepository waitingRoomRepository, WaitingRoomMapper waitingRoomMapper) {
-        this.waitingRoomRepository = waitingRoomRepository;
-        this.waitingRoomMapper = waitingRoomMapper;
-    }
-
     @Override
     public Page<WaitingRoomResponseDto> findAll(int pageNum, int pageSize) {
-        Page<WaitingRoom> waitingRooms = waitingRoomRepository.findAll(PageRequest.of(pageNum, pageSize));
-        return waitingRooms.map(waitingRoomMapper::toDto);
+        return waitingRoomRepository.findAll(PageRequest.of(pageNum, pageSize))
+                .map(waitingRoomMapper::toResponseDto);
     }
 
     @Override
     public WaitingRoomResponseDto findById(Long id) {
-        WaitingRoom waitingRoom = waitingRoomRepository.findById(new WaitingRoomId(id))
-                .orElseThrow(() -> new ResourceNotFoundException("Waiting room not found with ID: " + id));
-        return waitingRoomMapper.toDto(waitingRoom);
+        return waitingRoomMapper.toResponseDto(findEntityById(id));
     }
 
     @Override
-    public WaitingRoomResponseDto create(WaitingRoomRequestDto waitingRoomRequestDto) {
-        WaitingRoom waitingRoom = waitingRoomMapper.toEntity(waitingRoomRequestDto);
-        WaitingRoom savedWaitingRoom = waitingRoomRepository.save(waitingRoom);
-        return waitingRoomMapper.toDto(savedWaitingRoom);
+    public WaitingRoomResponseDto create(WaitingRoomRequestDto dto) {
+        WaitingRoom waitingRoom = waitingRoomMapper.toEntity(dto);
+        return waitingRoomMapper.toResponseDto(waitingRoomRepository.save(waitingRoom));
     }
 
     @Override
-    public WaitingRoomResponseDto update(Long id, WaitingRoomRequestDto waitingRoomRequestDto) {
-        WaitingRoom waitingRoom = waitingRoomRepository.findById(new WaitingRoomId(id))
-                .orElseThrow(() -> new ResourceNotFoundException("Waiting room not found with ID: " + id));
-
-        waitingRoom.setDate(waitingRoomRequestDto.getDate());
-        waitingRoom.setCapacity(waitingRoomRequestDto.getCapacity());
-        waitingRoom.setMode(waitingRoomRequestDto.getMode());
-        waitingRoom.setAlgorithm(waitingRoomRequestDto.getAlgorithm());
-
-        WaitingRoom updatedWaitingRoom = waitingRoomRepository.save(waitingRoom);
-        return waitingRoomMapper.toDto(updatedWaitingRoom);
+    public WaitingRoomResponseDto update(Long id, WaitingRoomRequestDto dto) {
+        WaitingRoom existingWaitingRoom = findEntityById(id);
+        waitingRoomMapper.updateFromDto(dto, existingWaitingRoom);
+        return waitingRoomMapper.toResponseDto(waitingRoomRepository.save(existingWaitingRoom));
     }
 
     @Override
     public void delete(Long id) {
-        WaitingRoom waitingRoom = waitingRoomRepository.findById(new WaitingRoomId(id))
-                .orElseThrow(() -> new ResourceNotFoundException("Waiting room not found with ID: " + id));
-        waitingRoomRepository.delete(waitingRoom);
+        if (!waitingRoomRepository.existsById(id)) {
+            throw new EntityNotFoundException("WaitingRoom not found with id: " + id);
+        }
+        waitingRoomRepository.deleteById(id);
+    }
+
+    @Override
+    public WaitingRoom findEntityById(Long id) {
+        return waitingRoomRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("WaitingRoom not found with id: " + id));
     }
 }
-
