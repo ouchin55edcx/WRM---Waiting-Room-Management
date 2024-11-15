@@ -36,7 +36,7 @@ public class Visit {
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Status is required")
     @Column(nullable = false)
-    private Status status = Status.WAITING;
+    private Status status;
 
     @Column(name = "priority")
     private Byte priority;
@@ -70,6 +70,12 @@ public class Visit {
         updatedAt = LocalDateTime.now();
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
+    public Status getStatus() {
+        return this.status;
+    }
 
 }

@@ -15,11 +15,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class WaitingRoomServiceImpl implements WaitingRoomService {
 
     private final WaitingRoomRepository waitingRoomRepository;
     private final WaitingRoomMapper waitingRoomMapper;
+
+    public WaitingRoomServiceImpl(WaitingRoomRepository waitingRoomRepository, WaitingRoomMapper waitingRoomMapper) {
+        this.waitingRoomRepository = waitingRoomRepository;
+        this.waitingRoomMapper = waitingRoomMapper;
+    }
 
     @Override
     public Page<WaitingRoomResponseDto> findAll(int pageNum, int pageSize) {

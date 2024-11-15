@@ -22,12 +22,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class VisitServiceImpl implements VisitService {
 
     private final VisitRepository visitRepository;
     private final VisitMapper visitMapper;
     VisitorRepository visitorRepository;
+
+    public VisitServiceImpl(VisitRepository visitRepository, VisitMapper visitMapper) {
+        this.visitRepository = visitRepository;
+        this.visitMapper = visitMapper;
+    }
 
     @Override
     public List<VisitResponseDto> findAll() {
@@ -58,8 +62,7 @@ public class VisitServiceImpl implements VisitService {
     public VisitResponseDto beginVisit(Long visitId) {
         Visit visit = findVisitAndValidateStatus(visitId, Status.WAITING, "Visit must be in WAITING status to begin");
 
-        visit.setStatus(Status.IN_PROGRESS)
-                .setStartTime(LocalTime.now());
+        visit.setStatus(Status.IN_PROGRESS);
 
         return visitMapper.toResponseDto(visitRepository.save(visit));
     }
@@ -68,8 +71,7 @@ public class VisitServiceImpl implements VisitService {
     public VisitResponseDto completeVisit(Long visitId) {
         Visit visit = findVisitAndValidateStatus(visitId, Status.IN_PROGRESS, "Visit must be in IN_PROGRESS status to complete");
 
-        visit.setStatus(Status.FINISHED)
-                .setEndTime(LocalTime.now());
+        visit.setStatus(Status.FINISHED);
 
         return visitMapper.toResponseDto(visitRepository.save(visit));
     }
